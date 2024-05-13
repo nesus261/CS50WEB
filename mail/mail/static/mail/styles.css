@@ -1,0 +1,19 @@
+textarea {
+    min-height: 400px;
+}
+#alert-compose-form {
+    display: none;
+}
+.rounded-4 {
+    border-radius: .375rem;
+}
+#email-content-body {
+    min-height: 0px;
+    color: rgb(48, 48, 48);
+    border: none;
+    resize: none; 
+    width: 100%; 
+}
+.alert-light {
+    color: rgb(43, 43, 43);
+}

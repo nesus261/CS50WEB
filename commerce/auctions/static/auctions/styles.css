@@ -1,0 +1,123 @@
+body {
+    padding: 10px;
+    background-color: #fbf9ff;
+}
+.block-body-container {
+    width: 100%;
+}
+.block-body {
+    margin: 0 auto;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 15px;
+    padding-inline: 40px;
+    background-color: #f8f3ff;
+    width: 90%;
+    max-width: 900px;
+    border-radius: 15px;
+}
+i {
+    font-size: small;
+}
+h2 {
+    margin-bottom: 20px;
+}
+.nav a {
+    font-weight: 700;
+    font-size: large;
+    color: #4007b9;
+}
+.nav div {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #f1eaff;
+    border-radius: 10px;
+}
+.nav-item {
+    margin: 1px;
+    background-color: #e9dfff;
+    border-radius: 10px;
+    min-width: 154px;
+    text-align: center;
+}
+h1 {
+    text-align: center;
+}
+#signed-in {
+    text-align: center;
+    font-weight: 500;
+    color: #2a0874;
+    margin-inline: 20px;
+    margin-bottom: 10px;
+    background-color: #d0bafc;
+    padding: 5px;
+    border-radius: 20px;
+}
+.listing-message {
+    width: 100%;
+    max-width: 680px;
+}
+#description {
+    margin: 5px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 810px;
+    padding: 5px;
+}
+textarea {
+    resize: none; 
+    width: 100%;
+    max-width: 550px;
+}
+input[type="text"], input[type="password"], input[type="email"] {
+    resize: none; 
+    width: 100%;
+    max-width: 380px;
+}
+form input[type="submit"] {
+    display: block;
+}
+#create-listing-form {
+    margin-top: 50px;
+}
+#create-listing-form label {
+    width: 200px;
+}
+.image_listing {
+    max-width: 100%;
+    max-height: 600px;
+    border-radius: 5px;
+}
+.listing_item_image {
+    max-height: 200px;
+    max-width: 100%;
+    border-radius: 5px;
+}
+.listing_image_div {
+    width: 45%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.forms-1 {
+    margin: 4px;
+}
+textarea, input, select {
+    border-radius: 4px;
+    border-color: #a7a7a7;
+}
+textarea[disabled] {
+    color: rgb(34, 34, 34);
+    font-size: large;
+    border: 1px solid rgb(219, 219, 219);
+    outline: none;
+}
+pre {
+    color: rgb(34, 34, 34);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    /* border: 1px solid rgb(219, 219, 219); */
+    outline: none;
+    margin-bottom: 15px!important;
+}

@@ -1,0 +1,44 @@
+#page {
+    padding-inline: 30px;
+    padding-top: 30px;
+}
+#title {
+    margin: 10px;
+    color: red;
+    font-size: 20px;
+}
+#form-div {
+    margin-left: 10px;
+    margin-top: 40px;
+}
+form div {
+    display: grid;
+    width: 100%; 
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
+    grid-template-columns: 160px auto;
+}
+input[type="text"] {
+    height: 25px;
+    width: 100%;
+    max-width: 460px;
+    font-size: 13px;
+    padding: 1px 8px;
+    text-align: left;
+    border: 1px solid #d9d9d9;
+    border-top: 1px solid #c0c0c0;
+    border-radius: 1px;
+}
+input[type="submit"] {
+    background-color: #4d90fe;
+    border: 1px solid #3079ed;
+    color: white;
+    font-size: 11px;
+    height: 30px;
+    width: 180px;
+    border-radius: 2px;
+}
+form > p {
+    margin-bottom: 20px;
+    font-size: 18px;
+}

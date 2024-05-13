@@ -1,0 +1,38 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>{{ title }}</h2>
+
+    <ul class="list-group">
+        {% if not listings %}
+            <li class="list-group-item d-flex flex-row mb-2 border" >
+                <div class="p2 ml-4">
+                    <h4>Empty</h4>
+                </div>
+            </li>
+        {% endif %}
+        {% for listing in listings %}
+            <li class="list-group-item d-flex flex-row mb-2 border" 
+                onclick="location.href = `{% url 'listing' id=listing.l.id %}`">
+                <div class="p2 listing_image_div">
+                    <img src="
+                    {% if listing.l.image_url %}
+                        {{ listing.l.image_url }}
+                    {% else %}
+                        {% load static %}
+                        {% static 'auctions/no_image.png' %}
+                    {% endif %}
+                    " class="listing_item_image">
+                </div>
+                <div class="p2 ml-4">
+                    <h4>{{ listing.l.title }}</h4>
+                    {% if listing.l.winner %}
+                        <h6 class="alert alert-info">Listing ended</h6>
+                    {% endif %}
+                    <b>Price: ${{ listing.price }}</b>
+                    <p>Created {{ listing.l.created_at }}</p>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 class="ml-2 mt-3">Listing: {{ listing.title }}</h2>
+    {% if watched %} 
+        <span class="badge bg-secondary text-light ">Watchlist</span><br>
+    {% endif %}
+    <img src="
+    {% if listing.image_url %}
+        {{ listing.image_url }}
+    {% else %}
+        {% load static %}
+        {% static 'auctions/no_image.png' %}
+    {% endif %}
+    " class="image_listing">
+    <pre id="description" class="rounded bg-transparent">{{ listing.description }}</pre>
+    <!--<textarea id="description" class="rounded bg-transparent" disabled>{{ listing.description }}</textarea>-->
+    <h2>${{ price }}</h2>
+    <p>{{ count_bids }} bid(s) so far. 
+        {% if your_last_bid %}
+            Your bid is the current bid.
+        {% endif %}
+    </p>
+    {% if listing.winner == user %}
+        <h5>You purchased this item for ${{ price }}.</h5>
+    {% elif listing.winner %}
+        <h5>Item sold.</h5>
+    {% endif %}
+    {% if your_listing %}
+        {% if listing.winner %}
+            <h5>Listing ended. Sold to <b>{{ listing.winner.username }}</b> for ${{ price }}.</h5>
+        {% else %}
+            <form class="forms-1" action="{% url 'end_listing' %}" method="post">
+                {% csrf_token %}
+                <input type="number" name="listing_id" value="{{ id }}" hidden>
+                <input type="submit" value="End listing" class="btn btn-primary">
+            </form>
+        {% endif %}
+    {% elif user.is_authenticated and listing.winner != user %}
+        {% if not listing.winner %}
+            <form class="forms-1" action="{% url 'bid_listing' %}" method="post">
+                {% csrf_token %}
+                {{ bid_form }}
+                <input type="submit" value="Bid" class="btn btn-primary">
+            </form>
+        {% endif %}
+        <form class="forms-1" action="{% url 'watchlist' %}" method="post">
+            {% csrf_token %}
+            <input type="number" name="listing_id" value="{{ id }}" hidden>
+            {% if watched %} 
+                <input type="submit" value="Remove from watchlist " class="btn btn-secondary">
+            {% else %} 
+                <input type="submit" value="Add to watchlist" class="btn btn-primary">
+            {% endif %}
+        </form>
+    {% endif %}
+    <br>
+    <h4>Details</h4>
+    <ul>
+        <li>Listed by: <a href="{% url 'user' listing.user.username %}">{{ listing.user.username }}</a></li>
+        <li>Category: <a href="{% url 'category' listing.category %}">{{ listing.category }}</a></li>
+        <li>Created at: {{ listing.created_at }}</li>
+    </ul>
+    <br>
+    <h4>Comments</h4>
+    {% if not listing.comments.all.count %}
+        <p>No comments</p>
+    {% endif %}
+    {% for comment in listing.comments.all %}
+        {% if comment.user == user %}
+            <div class="listing-message alert alert-info" role="alert">
+                <b>You:</b> {{ comment.content }}
+                <i class="float-right mt-3">{{ comment.created_at }}</i>
+            </div>
+        {% else %}
+            <div class="listing-message alert alert-primary" role="alert">
+                <b>{{ comment.user.username }}:</b> {{ comment.content }}
+                <i class="float-right mt-3">{{ comment.created_at }}</i>
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% if user.is_authenticated %}
+        <form class="forms-1" action="{% url 'comment' %}" method="post">
+            {% csrf_token %}
+            {{ comment_form }}
+            <input type="submit" value="Comment" class="btn btn-primary">
+        </form>
+    {% endif %}
+
+{% endblock %}

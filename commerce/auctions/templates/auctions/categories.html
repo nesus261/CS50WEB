@@ -1,0 +1,15 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Categories</h2>
+
+    <ul class="list-group">
+        {% for category in categories %}
+            <li class="list-group-item d-flex flex-row mb-2 border" 
+                onclick="location.href = `{% url 'category' category=category.value %}`">
+                <h4>{{ category.name }}</h4>
+            </li>
+        {% endfor %}
+
+    </ul>
+{% endblock %}

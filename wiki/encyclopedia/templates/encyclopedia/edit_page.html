@@ -1,0 +1,22 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+   Edit page
+{% endblock %}
+
+{% block body %}
+    <h1>Edit page</h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="{% url 'edit_page' entry=entry %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <input type="submit" class="btn btn-primary">
+    </form>
+{% endblock %}

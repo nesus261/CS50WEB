@@ -1,0 +1,82 @@
+{% extends "network/index.html" %}
+{% load static %}
+
+{% block body2 %}
+<div class="divs-2 ">
+    {% if user.is_authenticated %} 
+        <div class="row">
+            <div class="col-1">
+                {% if user.avatar %} 
+                    <div class="avatar" style="background-image: url('{{ user.avatar.url }}');"></div>
+                {% else %}
+                    <div class="avatar" style="background-image: url('{% static 'network/default-avatar.png' %}');"></div>
+                {% endif %}
+            </div>
+            <div class="col-11">
+                <form class="ml-3" id="post-form" method="post">
+                    {% csrf_token %}
+                    <textarea type="text" name="content" placeholder="What is happening?!"></textarea>
+                    <hr>
+                    <input type="submit" class="btn btn-primary" value="Post" disabled>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+</div>
+<div id="posts-container">
+    {% if not posts %}
+        <h3 class="d-flex justify-content-center mt-4 mb-5">Empty</h3>
+        <hr class="w-100">
+    {% endif %}
+    {% for post in posts %}
+        <div class="row p-2 pt-4 border-top border-bottom post-container">
+            <div class="col-1">
+                <a href="{% url 'profile' post.author.id %}">
+                    {% if post.author.avatar %} 
+                        <div class="avatar" style="background-image: url('{{ post.author.avatar.url }}');"></div>
+                    {% else %}
+                        <div class="avatar" style="background-image: url('{% static 'network/default-avatar.png' %}');"></div>
+                    {% endif %}
+                </a>
+            </div>
+            <div class="col-11">
+                <div class="ml-4 post-content-container">
+                    <a class="text-dark" href="{% url 'profile' post.author.id %}"><strong>{{ post.author.username }}</strong></a>
+                    <i class="timestamp">· {{ post.created_at }}</i>
+                    {% if post.author == user %}
+                        <i class="btn btn-light font-weight-normal float-right edit-post-button" data-post-id="{{ post.id }}">Edit</i>
+                    {% endif %}
+                    <br>
+                    <textarea class="bg-transparent post-content" type="text" disabled>{{ post.content }}</textarea>
+                    <div class="like-container">
+                        {% if user in post.likes.all %}
+                            <svg style="display: inline-block;" class="like" data-post="{{ post.id }}" data-like="true"><g color="#c20b0b"><path fill="currentcolor" d="M20.884 13.19c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"></path></g></svg>
+                            <svg style="display: none;" class="like " data-post="{{ post.id }}" data-like="false"><g color="#c20b0b"><path fill="currentcolor" d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"></path></g></svg>
+                        {% else %}
+                            <svg style="display: none;" class="like" data-post="{{ post.id }}" data-like="true"><g color="#c20b0b"><path fill="currentcolor" d="M20.884 13.19c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"></path></g></svg>
+                            <svg style="display: inline-block;" class="like " data-post="{{ post.id }}" data-like="false"><g color="#c20b0b"><path fill="currentcolor" d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"></path></g></svg>
+                        {% endif %}
+                        <p class="likes-count likes-count-{{ post.id }}">{{ post.likes.count }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+            {% if posts.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            <span class="current">
+                <li class="page-item"><a class="page-link disabled">Page {{ posts.number }}</a></li>
+                
+            </span>
+            {% if posts.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">Next</a></li>
+                <!--<li class="page-item"><a class="page-link" href="?page={{ posts.paginator.num_pages }}">Last &raquo;</a></li>-->
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

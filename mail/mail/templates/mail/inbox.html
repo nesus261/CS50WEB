@@ -1,0 +1,57 @@
+{% extends "mail/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h2>{{ request.user.email }}</h2>
+
+    <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
+    <button class="btn btn-sm btn-outline-primary" id="compose">Compose</button>
+    <button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
+    <button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
+    <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
+    <hr>
+
+    <div id="emails-view">
+    </div>
+
+    <div id="compose-view">
+        <h3>New Email</h3>
+        <form id="compose-form">
+            <div class="form-group">
+                From: <input disabled class="form-control" value="{{ request.user.email }}">
+            </div>
+            <div class="form-group">
+                To: <input id="compose-recipients" class="form-control">
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="compose-subject" placeholder="Subject">
+            </div>
+            <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
+            <div id="alert-compose-form" class="alert alert-danger" role="alert"></div>
+            <input type="submit" class="btn btn-primary"/>
+        </form>
+    </div>
+
+    <div id="email-content">
+        <div class="bg-primary rounded-4 text-light p-2">
+            <b>From: </b><p id="email-content-sender" class="d-inline"></p>
+        </div>
+        <div class="rounded-4 p-2">
+            <b>To: </b><p id="email-content-recipients" class="d-inline"></p>
+        </div>
+        <div class="rounded-4 p-2">
+            <b>Subject: </b><p id="email-content-subject" class="d-inline"></p>
+        </div>
+        <div class="rounded-4 p-2">
+            <b>Timestamp: </b><p id="email-content-timestamp" class="d-inline"></p>
+        </div>
+        <div class="rounded-4 p-2 mt-4">
+            <textarea id="email-content-body" class="d-inline p-2 bg-transparent" disabled></textarea>
+        </div>
+        <button id="email-reply" class="btn btn-primary ml-2">Reply</button>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'mail/inbox.js' %}"></script>
+{% endblock %}

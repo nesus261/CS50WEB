@@ -1,0 +1,37 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+{% if user.is_authenticated %} 
+<script src="{% static 'network/index.js' %}"></script>
+{% endif %}
+<div class="row body-1-container bg-white">
+    <div class="col-8 border-right border-bottom body-2-container">
+        {% block body2 %}
+        {% endblock %}
+    </div>
+    <div class="col-4 right-bar-container">
+        <div class="right-panel">
+            <h3><strong>Who to follow?</strong></h3>
+            <hr>
+            {% for user in to_follow %}
+                <a href="{% url 'profile' user.id %}">
+                    <div class="m-1 mb-2 avatar" style="background-image: 
+                        {% if user.avatar %} 
+                            url('{{ user.avatar.url }}');
+                        {% else %}
+                            url('{% static 'network/default-avatar.png' %}');
+                        {% endif %}
+                        ">
+                        <div class="username-to-follow-container align-middle">
+                            <b>{{ user.username }}</b>
+                        </div>
+                    </div>
+                </a>
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
